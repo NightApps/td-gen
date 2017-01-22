@@ -1,0 +1,41 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css');
+
+:root{
+--night-red:#aa1400;
+--night-orange:#d15900;
+--night-yellow:#d1bb00;
+--night-green:#24aa00;
+--night-cyan:#00a0aa;
+--night-blue:#0054aa;
+--night-violet:#7800aa;
+--night-pink:#d100b1;
+--night-grey:#1d1d1d;
+--night-grey2:#212121;
+--night-grey3:#262626;
+--night-light:#ededed;
+}
+
+body{
+	background-color: var(--night-grey);
+	color: var(--night-light) !important; 
+	text-align: center; 
+}
+
+nav {
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.0), 0 1px 5px 0 rgba(0,0,0,0.0), 0 3px 1px -2px rgba(0,0,0,0.0);
+}
+
+main {
+	//background-color: var(--night-grey3);
+    display: block;
+    text-align: left; 
+	max-width: 90%;
+}
+
+select, select:focus{
+	background-color:#262626;
+	border: 1px solid #1d1d1d;
+	outline-color: #1d1d1d;
+	border-color: #1d1d1d !important;
+}

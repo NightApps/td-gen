@@ -1,4 +1,72 @@
 <html>
 <head>
 <title>Aaaaaa</title>
+<!--Materialize CSS-->
+<link rel="stylesheet" href="css/main.css">
 </head>
+<body>
+<!--JQuery-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+<script src="js/index.js"></script>
+<div class="navbar-fixed">
+  <nav id="topBar">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo center">TDesktop Theme Generator</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="sass.html">Sass</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="container">
+<main>
+<div class="row">
+<!-- Theme Background -->
+<h4>Theme Backgrounds</h4>
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s4">
+			<input name="theme-Select" checked type="radio" id="theme-Dark" />
+			<label for="theme-Dark">Dark Theme</label>
+        </div>
+        <div class="input-field col s4">
+			<input name="theme-Select" type="radio" id="theme-Light" disabled="disabled" />
+			<label for="theme-Light">Light Theme</label>
+        </div>
+		<div class="input-field col s4">
+			<input name="theme-Select" type="radio" id="theme-Amoled" disabled="disabled" />
+			<label for="theme-Amoled">Black Theme</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+<!-- Accent Color -->
+<h4>Accent Color</h4>
+    <form class="col s12">
+      <div class="row" id="accent-boxes">
+        <div class="input-field col s4">
+			<input name="accent-Select" checked type="radio" id="theme-nightColorScheme" />
+			<label for="theme-nightColorScheme">Night Color Scheme</label><br><br><br>
+			<script>colorizeSelectOptions(nightColorScheme)</script>
+        </div>
+        <div class="input-field col s4">
+			<input name="accent-Select" type="radio" id="theme-extendedColorScheme" />
+			<label for="theme-extendedColorScheme">Extended Color Scheme</label><br><br><br>
+			<script>colorizeSelectOptions(extendedColorScheme)</script>
+			
+        </div>
+		<div class="input-field col s4">
+			<input name="accent-Select" type="radio" id="theme-CustomColor" />
+			<label for="theme-CustomColor">Custom Color</label><br><br><br>
+			<input class="jscolor" onchange="update(this.jscolor)" id="CustomColor-select" value="#0054aa">
+        </div>
+      </div>
+    </form>
+  </div>
+  
+
+</main>
+</div>
