@@ -10,5 +10,5 @@ Quickly make Material Design Themes for Telegram Desktop
 * Allow attaching of pictures for background
 * Improve Text Colors for Custom Background Color
 
-[https://night.tf](Our website)
+[Our website](https://night.tf)
 * Randomizer (for fun)
