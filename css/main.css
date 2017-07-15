@@ -14,11 +14,13 @@
 --night-grey2:#212121;
 --night-grey3:#262626;
 --night-light:#ededed;
+--bg: var(--night-grey);
+--text: var(--night-light);
 }
 
 body{
-	background-color: var(--night-grey);
-	color: var(--night-light) !important; 
+	background-color: var(--bg);
+	color: var(--text) !important; 
 	text-align: center; 
 }
 
@@ -27,15 +29,19 @@ nav {
 }
 
 main {
-	//background-color: var(--night-grey3);
+	/* background-color: var(--night-grey3); */
     display: block;
     text-align: left; 
 	max-width: 90%;
 }
 
+.input-field label {color: var(--text);}
+
 select, select:focus{
-	background-color:#262626;
-	border: 1px solid #1d1d1d;
-	outline-color: #1d1d1d;
-	border-color: #1d1d1d !important;
+	background-color:var(--bg);
+	border: 1px solid var(--bg);
+	outline-color: var(--bg);
+	border-color: var(--bg) !important;
 }
+
+[type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after, [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:before, [type="radio"].with-gap:checked + label:after {   background-color: var(--text); border-color: var(--text); }

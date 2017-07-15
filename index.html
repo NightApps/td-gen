@@ -19,6 +19,7 @@
 <script src="js/jszip.min.js"></script>
 <script src="js/FileSaver.min.js"></script>
 <script src="js/jscolor.min.js"></script>
+<script src="js/backgrounds.js"></script>
 <script src="js/index.js"></script>
 <div class="navbar-fixed">
   <nav id="topBar">
@@ -37,17 +38,22 @@
 <h4>Theme Backgrounds</h4>
     <form class="col s12">
       <div class="row">
-        <div class="input-field col s4">
-			<input name="theme-Select" checked type="radio" id="theme-Dark" />
+        <div class="input-field col s3">
+			<input name="theme-select" checked type="radio" id="theme-Dark" onclick="changeBG('var(--night-grey)', 'var(--night-light)');"/>
 			<label for="theme-Dark">Dark Theme</label>
         </div>
-        <div class="input-field col s4">
-			<input name="theme-Select" type="radio" id="theme-Light" disabled="disabled" />
+        <div class="input-field col s3">
+			<input name="theme-select" type="radio" id="theme-Light" onclick="changeBG('var(--night-light)', 'var(--night-grey)');"/>
 			<label for="theme-Light">Light Theme</label>
         </div>
-		<div class="input-field col s4">
-			<input name="theme-Select" type="radio" id="theme-Amoled" disabled="disabled" />
+		<div class="input-field col s3">
+			<input name="theme-select" type="radio" id="theme-Amoled" onclick="changeBG('#000', 'var(--night-light)');$('#CustomBG-select').hide();"/>
 			<label for="theme-Amoled">Black Theme</label>
+        </div>
+		<div class="input-field col s3">
+			<input name="theme-select" type="radio" id="theme-CustomBG" onclick="$('#CustomBG-select').show(700);"/>
+			<label for="theme-CustomBG">Custom Theme</label><br><br><br>
+			<input class="jscolor{onFineChange:'updateBG(this)'} browser-default" onchange="updateBG(this.jscolor)" id="CustomBG-select" value="#1d1d1d">
         </div>
       </div>
     </form>
@@ -71,7 +77,7 @@
 		<div class="input-field col s4">
 			<input name="accent-Select" type="radio" id="theme-CustomColor" />
 			<label for="theme-CustomColor">Custom Color</label><br><br><br>
-			<input class="jscolor browser-default" onchange="update(this.jscolor)" id="CustomColor-select" value="#0054aa">
+			<input class="jscolor{onFineChange:'update(this)'} browser-default" onchange="update(this.jscolor)" id="CustomColor-select" value="#0054aa">
         </div>
       </div>
 	  <div class="row">
