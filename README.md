@@ -1,4 +1,4 @@
-# TDesktop Theme Generator
+# [TDesktop Theme Generator](https://nightapps.github.io/td-gen)
 Quickly make Material Design Themes for Telegram Desktop
 
 * Supports Dark, Light, AMOLED (Black) Themes, and Custom Colored Backgrounds (Thanks to [jscolor](https://github.com/EastDesire/jscolor))
