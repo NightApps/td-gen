@@ -108,7 +108,7 @@ function update(jscolor) {
 function updateBG(jscolor) {
     // 'jscolor' instance can be used as a string
     changeBG('#'+jscolor, invertColor('#'+jscolor));
-	window.BGColor = '#' + jscolor;
+	window.BGColor = '#'+jscolor;
 }
 
 function showHideBox(){
@@ -210,8 +210,39 @@ function invertColor(hexTripletColor) {
 }
 
 
-function makeTheme(){
+function convertToHex(num){
+		num = parseInt(num,10);
+		if( num<0 ) {
+			if( num>=-32768 )
+				num+=65536;
+			else if( num>=-Math.pow(2,31))
+				num+=Math.pow(2,32);
+			else if( num>=-Math.pow(2,63) )
+				num+=Math.pow(2,64);
+		}
+		num = num.toString(16);
+		var result = num.toUpperCase();
+		return result;
+	}
 	
+function convertToDec(num){
+		var isNegative=num.toString().toLowerCase().substring(0, 2)=='ff';
+		num = parseInt(num,16);
+		var result = num.toString(10);
+		var result=parseInt(result);
+		var pow = Math.pow(2,32);
+		if (isNegative) var result = result-pow;
+		return result;
+	}
+
+function makeTheme(){
+	if (document.getElementById("theme-tdesktop").checked) return makeThemeDesktop();
+	return makeThemeAndroid();
+}
+
+
+function makeThemeDesktop(){
+	try{
 	if (document.getElementById("theme-Light").checked) {
 		var primaryBG = '#ededed';
 		var primaryBGTrans = '#edededcc';
@@ -292,4 +323,82 @@ function makeTheme(){
 	}).then(function(blob) {
 		saveAs(blob, 'Night-'+window.ThemeName+'-'+window.ColorName + ".tdesktop-theme");
 	});
+	}catch(err){
+		console.log(err);
+	}
+}
+
+function makeThemeAndroid(){
+	try{
+		if (document.getElementById("theme-Light").checked) {
+		var primaryBG = 'ffededed';
+		var primaryBGTrans = '66ededed';
+		var primaryBG2 = 'fffafafa';
+		var primaryBG3 = 'ffffffff';
+		var primaryText = 'ff1d1d1d';
+		var primaryTextBubble = primaryBG;
+		window.ThemeName = 'Dawn';
+	} else if (document.getElementById("theme-Amoled").checked) {
+		var primaryBG = 'ff000000';
+		var primaryBGTrans = '66000000';
+		var primaryBG2 = 'ff000000';
+		var primaryBG3 = 'ff000000';
+		var primaryText = 'fffbfbfb';
+		var primaryTextBubble = primaryText;
+		window.ThemeName = 'Midnight';
+	} else if (document.getElementById("theme-Dark").checked) {
+		var primaryBG = 'ff1d1d1d';
+		var primaryBGTrans = '661d1d1d';
+		var primaryBG2 = 'ff212121';
+		var primaryBG3 = 'ff262626';
+		var primaryText = 'fffbfbfb';
+		var primaryTextBubble = primaryText;
+		window.ThemeName = 'Dark';
+	} else {
+		var primaryBG = 'ff'+window.BGColor.substr(1);
+		var primaryBGTrans = '66'+primaryBG;
+		var primaryBG2 = ColorLuminance(primaryBG, 0.15).substr(1);
+		var primaryBG3 = 'ff'+ColorLuminance(primaryBG2, 0.15).substr(1);
+		var primaryText = 'ff'+invertColor(primaryBG).substr(1);
+		var primaryTextBubble = primaryBG;
+		window.ThemeName = 'Custom('+primaryBG+')';
+	}
+	
+	if (document.getElementById('theme-nightColorScheme').checked || document.getElementById('theme-extendedColorScheme').checked) {
+		if (document.getElementById('theme-nightColorScheme').checked){var primaryColor = getValueColor(document.getElementById('nightColorScheme-select'), nightColorScheme, 1).substr(1);}
+		if (document.getElementById('theme-extendedColorScheme').checked){var primaryColor = getValueColor(document.getElementById('extendedColorScheme-select'), extendedColorScheme, 1).substr(1);}
+		primaryColorDark = 'ff'+ColorLuminance(primaryColor, -0.5).substr(1);
+		primaryColor = 'ff'+primaryColor;
+	} else {
+		var primaryColor = window.customColor.substr(1);
+		var primaryColorDark = 'ff'+ColorLuminance(primaryColor, -0.5).substr(1);
+		window.ColorName = 'Custom('+primaryColor+')';
+	}
+		if(document.getElementById("theme-tandroid").checked){var Palette='avatar_backgroundViolet=-8912726\nprofile_adminIcon=$primaryColor$\navatar_backgroundBlue=-16755542\nchat_replyPanelClose=$primaryColor$\ndialogTextGray=$primaryColor$\ndialogTextBlue2=$primaryColor$\nactionBarActionModeDefaultSelector=$primaryColorDark$\nchats_menuItemIcon=$primaryColor$\nchat_inTimeText=$primaryColor$\nchat_inLoader=$primaryColor$\nwindowBackgroundGray=$primaryBG$\nwindowBackgroundWhiteGreenText2=$primaryColor$\nchat_emojiPanelBackspace=$primaryColor$\nchat_outFileInfoSelectedText=$primaryColor$\nchat_inBubble=$primaryBG3$\nchat_outLoaderSelected=$primaryColor$\nchat_emojiPanelIcon=$primaryColor$\nchat_selectedBackground=$primaryBG3$\nchats_pinnedIcon=$primaryColor$\nchat_muteIcon=$primaryColorDark$\nchat_addContact=$primaryColor$\nchat_outMenu=$primaryColorDark$\navatar_backgroundRed=-5630976\nactionBarActionModeDefault=$primaryColor$\nchat_emojiPanelShadowLine=$primaryColor$\navatar_nameInMessageBlue=-16755542\navatar_backgroundGreen=-14374400\ndialogBackground=$primaryBG3$\ndialogCheckboxSquareBackground=$primaryColor$\nchat_outForwardedNameText=$primaryColorDark$\nswitchThumb=$primaryBG3$\nchats_tabletSelectedOverlay=0\ndivider=0\navatar_actionBarSelectorBlue=$primaryColor$\nchats_actionMessage=$primaryColor$\nchat_inLoaderSelected=$primaryColorDark$\nchat_stickerReplyLine=$primaryColor$\ninappPlayerBackground=$primaryColor$\navatar_nameInMessageRed=-5630976\nchat_topPanelLine=$primaryColorDark$\nchat_outFileInfoText=$primaryColorDark$\nchat_outBubbleShadow=0\nchat_inMenuSelected=$primaryColorDark$\nactionBarDefaultSearchPlaceholder=$primaryColorDark$\nprofile_actionBackground=$primaryBG3$\nchat_outSentClockSelected=$primaryColor$\navatar_nameInMessageGreen=-14374400\nchat_outAudioSeekbarFill=$primaryColorDark$\nchat_messagePanelVoiceShadow=16514043\nchat_inReplyNameText=$primaryColor$\navatar_backgroundCyan=-16736086\nchats_nameIcon=$primaryColor$\ngraySection=$primaryBG$\nchat_messagePanelIcons=$primaryColor$\nchat_emojiPanelIconSelector=$primaryColor$\nchat_inFileInfoSelectedText=$primaryColorDark$\nchat_inAudioPerfomerText=$primaryColor$\nchat_messageLinkIn=$primaryColor$\nchats_attachMessage=$primaryColor$\nchats_unreadCounter=$primaryColor$\nactionBarDefaultSubmenuBackground=$primaryBG3$\ncheckbox=$primaryColor$\nchat_outSentCheckSelected=$primaryColor$\nchat_outTimeSelectedText=$primaryColorDark$\nchats_secretIcon=$primaryColor$\nchat_messagePanelSend=$primaryColor$\nchat_messagePanelshadow=0\nchats_pinnedOverlay=0\ndialogIcon=$primaryColor$\nchat_outAudioPerfomerText=$primaryColorDark$\nwindowBackgroundGrayShadow=0\nwindowBackgroundWhiteBlueHeader=$primaryColor$\nactionBarDefaultSelector=$primaryColorDark$\nreturnToCallBackground=$primaryColorDark$\nchat_messagePanelBackground=$primaryBGTrans$\nchat_inReplyLine=$primaryColor$\nchat_searchPanelIcons=$primaryColor$\nswitchThumbChecked=$primaryColor$\navatar_backgroundOrange=-3057408\nchat_inReplyMessageText=$primaryColor$\nchat_inAudioDurationSelectedText=$primaryColorDark$\ndialogLinkSelection=$primaryColor$\nactionBarDefault=$primaryColor$\ndialogInputFieldActivated=$primaryColor$\nchat_outSentClock=$primaryColorDark$\nchat_goDownButton=$primaryBG3$\nchats_verifiedBackground=$primaryColor$\nprofile_actionPressedBackground=$primaryColor$\nchat_outContactPhoneText=$primaryColorDark$\nchat_outAudioDurationText=$primaryColorDark$\nwindowBackgroundWhiteLinkText=$primaryColor$\nwindowBackgroundWhiteLinkSelection=$primaryColor$\nchat_outSiteNameText=$primaryColorDark$\nchats_actionBackground=$primaryColor$\nchats_date=$primaryColor$\nchat_inBubbleSelected=$primaryColor$\nprogressCircle=$primaryColor$\nchat_outBubbleSelected=$primaryColorDark$\nstickers_menu=$primaryColor$\nchats_unreadCounterMuted=$primaryColorDark$\navatar_nameInMessagePink=-3080015\nchat_inSiteNameText=$primaryColor$\nchat_topPanelMessage=$primaryColorDark$\nchat_topPanelBackground=$primaryColor$\nchat_inReplyMediaMessageSelectedText=$primaryColorDark$\nchat_outAudioDurationSelectedText=$primaryColor$\nkey_chat_messagePanelVoiceLockShadow=16514043\nchats_actionPressedBackground=$primaryColorDark$\nswitchTrackChecked=$primaryColorDark$\nchat_serviceBackground=1814439462\nwindowBackgroundWhiteGrayText2=$primaryColor$\nsharedMedia_startStopLoadIcon=$primaryColor$\nprofile_actionIcon=$primaryColor$\ndialogTextBlue3=$primaryColor$\nchat_emojiPanelBackground=$primaryBG2$\nactionBarDefaultTitle=$primaryColorDark$\nchat_inVoiceSeekbarFill=$primaryColor$\nchat_inPreviewLine=$primaryColor$\ndialogTextBlue=$primaryColor$\navatar_backgroundActionBarBlue=$primaryColor$\nchat_inViaBotNameText=$primaryColor$\navatar_nameInMessageOrange=-3057408\nwindowBackgroundWhiteGrayText4=$primaryColor$\nchat_outFileBackground=$primaryColor$\ndialogTextLink=$primaryColor$\nchat_fieldOverlayText=$primaryColor$\navatar_nameInMessageViolet=-8912726\nchat_inForwardedNameText=$primaryColor$\nchats_nameMessage=$primaryColor$\nchat_outBubble=$primaryColor$\nwindowBackgroundWhite=$primaryBG$\nchats_menuBackground=$primaryBG2$\nchat_messagePanelHint=16514043\nchat_replyPanelLine=0\nchat_inReplyMediaMessageText=$primaryColor$\ncalls_callReceivedGreenIcon=$primaryColor$\nchat_outReplyMediaMessageText=$primaryColorDark$\nchat_outLoader=$primaryColorDark$\nchat_outReplyNameText=$primaryColorDark$\nchat_inFileInfoText=$primaryColor$\nwindowBackgroundWhiteGrayIcon=$primaryColor$\nchat_inContactPhoneText=$primaryColor$\nchat_sentError=-5630976\navatar_backgroundInProfileBlue=$primaryColor$\nchat_outVoiceSeekbarFill=$primaryColorDark$\nchat_goDownButtonShadow=0\nchat_outPreviewLine=$primaryColorDark$\nchats_sentCheck=$primaryColor$\nchat_replyPanelIcons=$primaryColor$\nchat_inMenu=$primaryColor$\navatar_actionBarIconBlue=$primaryColorDark$\nchats_sentClock=$primaryColor$\ndialogButton=$primaryColor$\ndialogTextBlue4=$primaryColor$\ninappPlayerClose=$primaryColorDark$\nchat_outReplyMessageText=$primaryColorDark$\nchat_inAudioDurationText=$primaryColor$\nlistSelectorSDK21=$primaryColor$\nchat_goDownButtonIcon=$primaryColor$\nchats_menuCloudBackgroundCats=$primaryBG$\nactionBarDefaultIcon=$primaryColorDark$\nchat_wallpaper=$primaryBG$\nchat_editDoneIcon=$primaryColor$\nchat_emojiPanelStickerPackSelector=$primaryColor$\nchat_replyPanelName=$primaryColor$\nfeaturedStickers_addedIcon=$primaryColor$\navatar_backgroundPink=-3080015\nchat_outViaBotNameText=$primaryColorDark$\nwindowBackgroundWhiteValueText=$primaryColor$\nactionBarActionModeDefaultIcon=$primaryColorDark$\nchats_message=$primaryColor$\navatar_subtitleInProfileBlue=$primaryColorDark$\nemptyListPlaceholder=$primaryColor$\nchat_inAudioSeekbarFill=$primaryColor$\nwindowBackgroundWhiteBlueText=$primaryColor$\nchat_goDownButtonCounterBackground=$primaryColor$\nchat_outReplyMediaMessageSelectedText=$primaryColor$\nchat_topPanelClose=$primaryColorDark$\nchat_outSentCheck=$primaryColorDark$\nchat_outMenuSelected=$primaryColor$\nchat_recordedVoiceDot=-5630976\nchat_outReplyLine=$primaryColorDark$\ninappPlayerPlayPause=$primaryColorDark$\ndialogBackgroundGray=$primaryBG3$\ncalls_callReceivedRedIcon=-5630976\ndialogButtonSelector=$primaryColorDark$\navatar_nameInMessageCyan=-16736086\nchat_outTimeText=$primaryColorDark$\nchat_inTimeSelectedText=$primaryColor$\nswitchTrack=$primaryBG2$\nchats_menuCloud=$primaryText$\nchat_emojiPanelIconSelected=$primaryText$\nchat_stickerReplyMessageText=$primaryText$\nchat_goDownButtonCounter=$primaryText$\nchats_menuItemText=$primaryText$\ndialogTextGray4=$primaryText$\ninappPlayerPerformer=$primaryText$\ndialogTextGray3=$primaryText$\nchat_replyPanelMessage=$primaryText$\nchat_emojiPanelTrendingTitle=$primaryText$\nchat_emojiPanelEmptyText=$primaryText$\nfiles_iconText=$primaryText$\nchats_secretName=$primaryText$\nactionBarDefaultSubtitle=$primaryText$\ndialogTextBlack=$primaryText$\ndialogTextGray2=$primaryText$\nchats_name=$primaryText$\nchat_linkSelectBackground=$primaryText$\nchats_menuPhone=$primaryText$\nactionBarDefaultSubmenuItem=$primaryText$\nchat_searchPanelText=$primaryText$\nchat_topPanelTitle=$primaryText$\ninappPlayerTitle=$primaryText$\nchats_muteIcon=$primaryText$\nwindowBackgroundWhiteBlackText=$primaryText$\nchat_messageTextIn=$primaryText$\nchat_messageTextOut=$primaryTextBubble$\nchat_messageLinkOut=$primaryTextBubble$\nchat_messagePanelText=$primaryText$\nchat_inFileNameText=$primaryText$\nchat_inVoiceSeekbar=$primaryText$\nchat_inAudioTitleText=$primaryText$\nchat_inVoiceSeekbarSelected=$primaryText$\nchat_inAudioSeekbar=$primaryText$\nchat_inContactNameText=$primaryText$\nchat_outVoiceSeekbarSelected=$primaryTextBubble$\nchat_outFileNameText=$primaryTextBubble$\nchat_outAudioTitleText=$primaryTextBubble$\nchat_outVoiceSeekbar=$primaryTextBubble$\nchat_outAudioSeekbar=$primaryTextBubble$\nchat_outContactNameText=$primaryTextBubble$\n';
+	} else if (document.getElementById("theme-plus").checked) {var Palette = '<?xml version=\'1.0\' encoding=\'utf-8\' standalone=\'yes\' ?>\n<map>\n    <int name="chatsNameColor" value="$primaryText$" />\n    <int name="chatStatusColor" value="$primaryText$" />\n    <int name="chatsFavIndicatorColor" value="$primaryBG$" />\n    <int name="chatForwardColor" value="$primaryColor$" />\n    <int name="chatAttachTextColor" value="$primaryText$" />\n    <int name="contactsStatusColor" value="$primaryColor$" />\n    <int name="prefTitleColor" value="$primaryText$" />\n    <boolean name="usePlusTheme" value="true" />\n    <int name="chatLTimeColor" value="$primaryColor$" />\n    <int name="drawerOptionColor" value="$primaryText$" />\n    <string name="version">4.2.1.1</string>\n    <int name="contactsOnlineColor" value="$primaryColor$" />\n    <int name="chatEmojiViewTabIconColor" value="$primaryColor$" />\n    <int name="chatsMemberColor" value="$primaryColor$" />\n    <int name="chatsChecksColor" value="$primaryColor$" />\n    <int name="chatsTimeColor" value="$primaryColor$" />\n    <int name="chatsHeaderTitleColor" value="$primaryColorDark$" />\n    <int name="chatsRowColor" value="$primaryBG$" />\n    <int name="profileCreatorStarColor" value="$primaryText$" />\n    <int name="chatEditTextIconsColor" value="$primaryColor$" />\n    <int name="chatsMessageColor" value="$primaryColor$" />\n    <int name="chatRBubbleColor" value="$primaryColor$" />\n    <int name="chatsDividerColor" value="$primaryBG$" />\n    <int name="profileIconsColor" value="$primaryColor$" />\n    <int name="chatForwardRColor" value="$primaryColorDark$" />\n    <boolean name="drawerHeaderBGCheck" value="true" />\n    <int name="profileRowColor" value="$primaryBG$" />\n    <int name="prefHeaderStatusColor" value="$primaryColor$" />\n    <boolean name="chatsTabTitlesMode" value="false" />\n    <int name="profileAdminStarColor" value="$primaryColor$" />\n    <int name="chatMemberColor" value="$primaryColor$" />\n    <int name="chatSelectedMsgBGColor" value="-14606047" />\n    <int name="chatChecksColor" value="$primaryColorDark$" />\n    <int name="chatRTimeColor" value="$primaryColorDark$" />\n    <int name="chatsHeaderIconsColor" value="$primaryColorDark$" />\n    <int name="chatAttachBGColor" value="$primaryBG$" />\n    <int name="contactsNameColor" value="$primaryText$" />\n    <int name="chatsHeaderTitle" value="4" />\n    <int name="prefShadowColor" value="$primaryBG$" />\n    <int name="prefDividerColor" value="$primaryBG$" />\n    <int name="chatsTabsTextSize" value="8" />\n    <int name="contactsRowColor" value="$primaryBG$" />\n    <int name="chatRTextColor" value="$primaryText$" />\n    <int name="chatHeaderIconsColor" value="$primaryColorDark$" />\n    <int name="dialogColor" value="$primaryColor$" />\n    <int name="chatsGroupIconColor" value="$primaryColor$" />\n    <int name="chatsHeaderColor" value="$primaryColor$" />\n    <int name="chatsFloatingPencilColor" value="$primaryText$" />\n    <int name="drawerVersionColor" value="$primaryText$" />\n    <int name="profileHeaderIconsColor" value="$primaryColorDark$" />\n    <int name="chatRLinkColor" value="$primaryColorDark$" />\n    <int name="drawerIconColor" value="$primaryColor$" />\n    <int name="chatsCountBGColor" value="$primaryColor$" />\n    <int name="chatNameColor" value="$primaryColorDark$" />\n    <int name="chatEmojiViewTabColor" value="$primaryText$" />\n    <int name="themeColor" value="$primaryColor$" />\n    <int name="prefHeaderIconsColor" value="$primaryColorDark$" />\n    <int name="drawerListColor" value="$primaryBG$" />\n    <int name="prefBGColor" value="$primaryBG$" />\n    <int name="chatsTypingColor" value="$primaryColor$" />\n    <int name="contactsHeaderIconsColor" value="$primaryColorDark$" />\n    <boolean name="drawerHideBGShadowCheck" value="true" />\n    <int name="contactsIconsColor" value="$primaryColor$" />\n    <int name="drawerPhoneColor" value="$primaryText$" />\n    <int name="chatHeaderColor" value="$primaryColor$" />\n    <int name="chatLBubbleColor" value="$primaryBG3$" />\n    <int name="chatsCountSilentBGColor" value="$primaryColorDark$" />\n    <int name="chatsMuteColor" value="$primaryText$" />\n    <int name="chatEditTextBGColor" value="$primaryBGTrans$" />\n    <int name="chatsHighlightSearchColor" value="$primaryColor$" />\n    <int name="chatEmojiViewBGColor" value="$primaryBG$" />\n    <int name="profileTitleColor" value="$primaryText$" />\n    <int name="contactsHeaderColor" value="$primaryColor$" />\n    <string name="date">1506185073208</string>\n    <int name="chatSolidBGColor" value="$primaryBG$" />\n    <int name="chatsMediaColor" value="$primaryColor$" />\n    <int name="chatLTextColor" value="$primaryText$" />\n    <int name="profileOnlineColor" value="$primaryColor$" />\n    <int name="chatsFloatingBGColor" value="$primaryColor$" />\n    <boolean name="chatSolidBGColorCheck" value="true" />\n    <int name="profileStatusColor" value="$primaryColorDark$" />\n    <int name="chatDateBubbleColor" value="2015437089" />\n    <int name="chatSendIconColor" value="$primaryColor$" />\n    <int name="chatOnlineColor" value="$primaryText$" />\n    <boolean name="chatShowContactAvatar" value="false" />\n    <int name="prefHeaderTitleColor" value="$primaryColorDark$" />\n    <int name="drawerListDividerColor" value="$primaryBG$" />\n    <int name="chatsPinnedMsgBGColor" value="$primaryBG$" />\n    <int name="chatTypingColor" value="$primaryText$" />\n    <int name="prefSummaryColor" value="$primaryText$" />\n    <int name="prefHeaderColor" value="$primaryColor$" />\n    <int name="chatEditTextColor" value="$primaryText$" />\n    <string name="themeName">Night Theme Generator https://nightapps.github.io/td-gen</string>\n    <int name="contactsHeaderTitleColor" value="$primaryColorDark$" />\n    <int name="profileSummaryColor" value="$primaryColor$" />\n</map>\n';}
+		var primaryColor = convertToDec(primaryColor);
+		var primaryColorDark = convertToDec(primaryColorDark);
+		var primaryBG = convertToDec(primaryBG);
+		var primaryBGTrans = convertToDec(primaryBGTrans);
+		var primaryBG2 = convertToDec(primaryBG2);
+		var primaryBG3 = convertToDec(primaryBG3);
+		var primaryText = convertToDec(primaryText);
+		var primaryTextBubble = convertToDec(primaryTextBubble);
+		var Palette = Palette.replace(/\$primaryColor\$/g, primaryColor);
+		var Palette = Palette.replace(/\$primaryColorDark\$/g, primaryColorDark);
+		var Palette = Palette.replace(/\$primaryBG\$/g, primaryBG);
+		var Palette = Palette.replace(/\$primaryBG2\$/g, primaryBG2);
+		var Palette = Palette.replace(/\$primaryBG3\$/g, primaryBG3);
+		var Palette = Palette.replace(/\$primaryBGTrans\$/g, primaryBGTrans);
+		var Palette = Palette.replace(/\$primaryText\$/g, primaryText);
+		var Palette = Palette.replace(/\$primaryTextBubble\$/g, primaryTextBubble);
+		if (document.getElementById("theme-tandroid").checked){var filetype = ".attheme"}else if (document.getElementById("theme-plus").checked){var filetype = ".xml"}
+		var element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(Palette));
+		element.setAttribute('download', 'Night - '+window.ThemeName+' / '+window.ColorName + filetype);
+		element.style.display = 'none';
+		document.body.appendChild(element);
+		element.click();
+		document.body.removeChild(element);
+	}catch(err){console.log(err);}
 }

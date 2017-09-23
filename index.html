@@ -24,7 +24,7 @@
 <div class="navbar-fixed">
   <nav id="topBar">
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo center">TDesktop Theme Generator</a>
+      <a href="#!" class="brand-logo center"><span id="app">TDesktop</span> Theme Generator</a>
       <ul class="right hide-on-med-and-down">
         <!--<li><a href="sass.html">Sass</a></li>-->
       </ul>
@@ -33,6 +33,27 @@
 </div>
 <div class="container">
 <main>
+<div class="row">
+<!-- Telegram Client -->
+<h4>Choose Telegram Client:</h4>
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s4">
+			<input name="theme-client" checked type="radio" id="theme-tdesktop"/>
+			<label for="theme-tdesktop">Telegram Desktop</label>
+        </div>
+        <div class="input-field col s4">
+			<input name="theme-client" type="radio" id="theme-tandroid"/>
+			<label for="theme-tandroid">Telegram Android</label>
+        </div>
+		<div class="input-field col s4">
+			<input name="theme-client" type="radio" id="theme-plus"/>
+			<label for="theme-plus">Plus Messenger</label>
+        </div>
+      </div>
+    </form>
+  </div>
+
 <div class="row">
 <!-- Theme Background -->
 <h4>Theme Backgrounds</h4>
